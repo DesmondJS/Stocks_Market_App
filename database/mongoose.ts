@@ -1,6 +1,4 @@
 import dns from "node:dns";
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
-
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -20,6 +18,7 @@ if (!cached) {
 
 export const connectToDatabase = async () => {
     if (!MONGODB_URI) throw new Error("MONGODB_URI must be set within .env");
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
     if (cached.conn) return cached.conn;
 
@@ -29,11 +28,10 @@ export const connectToDatabase = async () => {
 
     try {
         cached.conn = await cached.promise;
-        return cached.conn;
     } catch (err) {
         cached.promise = null;
         throw err;
     }
 
-    console.log(`Connected to database ${process.env.NODE_ENV} - ${MONGODB_URI}`);
+    return cached.conn;
 }
