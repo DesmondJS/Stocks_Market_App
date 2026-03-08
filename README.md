@@ -1,8 +1,20 @@
-# 📈 Stocks Market App
+# 📈 Stocks Market App  
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-38B2AC?logo=tailwind-css)
+![shadcn/ui](https://img.shields.io/badge/shadcn-ui-black)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)
+![Mongoose](https://img.shields.io/badge/Mongoose-ODM-880000?logo=mongoose)
+![Better Auth](https://img.shields.io/badge/Auth-BetterAuth-blue)
+![Gemini AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google)
+![Finnhub](https://img.shields.io/badge/API-Finnhub-green)
+![Inngest](https://img.shields.io/badge/Automation-Inngest-purple)
+![Nodemailer](https://img.shields.io/badge/Email-Nodemailer-yellow)
+![Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)
 
 An AI-powered stock dashboard that allows users to search, track, and analyze stocks with real-time market data, personalized watchlists, and automated AI-driven insights.
 
-Built with a modern full-stack architecture using **Next.js 15, MongoDB, Gemini AI, and Inngest** workflows, the application provides a seamless experience for monitoring stocks and receiving automated financial insights.
+Built with a modern full-stack architecture using **Next.js 15, Typescript, MongoDB, Gemini AI, and Inngest** workflows, the application provides a seamless experience for monitoring stocks and receiving automated financial insights.
 
 ## 🌐 Live Demo
 https://stocks-market-app-livid.vercel.app/  
