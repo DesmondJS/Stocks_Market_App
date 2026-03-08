@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+* 📈 Stocks Market App
 
-## Getting Started
+An AI-powered stock dashboard that allows users to search, track, and analyze stocks with real-time market data, personalized watchlists, and automated AI-driven insights.
 
-First, run the development server:
+Built with a modern full-stack architecture using **Next.js 15, MongoDB, Gemini AI, and Inngest** workflows, the application provides a seamless experience for monitoring stocks and receiving automated financial insights.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+** 🌐 Live Demo
+https://stocks-market-app-livid.vercel.app/  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+** 🚀 Features  
+*** 🔐 Authentication  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Secure user authentication powered by **Better Auth**  
+- **MongoDB** session storage  
+- Protected routes via middleware and root layout  
 
-## Learn More
+*** 📊 Stock Dashboard  
 
-To learn more about Next.js, take a look at the following resources:
+- Interactive **TradingView** widgets  
+- Market overview and stock visualizations  
+- Real-time financial charts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*** 🔎 Smart Stock Search  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Cmd/Ctrl + K command palette  
+- Debounced search requests  
+- Powered by **Finnhub API**  
+- Default fallback for popular stocks
 
-## Deploy on Vercel
+*** ⭐ Watchlist Management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Users can:  
+- Add stocks to watchlist
+- Edit company category  
+- Sort and filter watchlist entries  
+- Navigate directly to stock pages  
+- Watchlist data is persisted in **MongoDB Atlas**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*** 🤖 AI Features
+
+The platform integrates **Google Gemini AI** for intelligent automation.  
+Capabilities:
+
+- Personalized welcome emails  
+- AI-generated stock summaries  
+- Automated daily news digests
+
+*** ⚙️ Automation Workflows
+
+Powered by **Inngest**:  
+- Event-driven workflows  
+- Scheduled cron jobs  
+- AI processing pipelines  
+Automations include:  
+- Welcome email generation  
+- Daily financial news summaries
+
+---  
+
+** 🖼 Screenshots  
+*** Dashboard  
+![Dashboard Pic](https://github.com/DesmondJS/Stocks_Market_App/screenshots/dashboard.png)  
+
+*** Stock Search  
+![Stock Search Pic](https://github.com/DesmondJS/Stocks_Market_App/screenshots/searchbar.png)  
+
+*** Stock Details Page  
+![Details Pic](https://github.com/DesmondJS/Stocks_Market_App/screenshots/stock-page.png)  
+
+*** Watchlist  
+![Watchlist Pic](https://github.com/DesmondJS/Stocks_Market_App/screenshots/watchlist.png)  
+
+---  
+
+** 🧠 System Architecture  
+
