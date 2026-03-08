@@ -76,3 +76,211 @@ Automations include:
 
 ## 🧠 System Architecture  
 
+```
+User
+ │
+ ▼
+Next.js 15 (App Router)
+ │
+ ├── Authentication (Better Auth)
+ │
+ ├── API Routes
+ │     ├── Finnhub API
+ │     ├── Gemini AI
+ │     └── Watchlist CRUD
+ │
+ ├── MongoDB Atlas
+ │
+ └── Inngest Workflows
+       ├── AI Email Generation
+       └── Daily News Automation
+              │
+              ▼
+           Nodemailer
+              │
+              ▼
+            Gmail
+```
+
+---
+
+## 🛠 Tech Stack  
+
+### Frontend:
+- **Next.js 15** (App Router + Turbopack)
+- **React 19**
+- **Tailwind CSS V4**
+- **Shadcn/ui**
+
+### Backend:
+- **Next.js** API Routes
+- **Typescript**
+- **MongoDB Atlas**
+- **Mongoose**
+- **Better-Auth**
+
+### Market Data:
+- **Finnhub API**: stock search and company data
+- **TradingView Widgets**: financial charts and analytics
+
+### AI Integration:
+- **Google Gemini API**
+- AI-powered summaries and email content generation
+
+### Automation & Workflows
+- **Inngest**
+- Event-driven background tasks
+- Cron-based automation
+
+### Email Service
+- **NodeMailer**
+- Gmail SMTP transport
+
+### Deployment 
+- **Vercel**
+
+---
+
+## 🔄 Implemented Workflows
+
+### User Authentication
+1. User signs up / signs in
+2. Server actions in `auth.action.ts` process credentials
+3. **Better-Auth** manages sessions with MongoDB
+4. Middleware protects authenticated routes
+
+### Session Protected App Shell
+The root layout verifies the user session.  
+If no session exists:  
+```
+redirect → /login
+```
+Authenticated users gain access to:  
+- Dashboard
+- Stock pages
+- Watchlist
+- Search
+
+### Stock Search Flow
+```
+Cmd/Ctrl + K
+      │
+      ▼
+Debounced query
+      │
+      ▼
+Finnhub API
+      │
+      ▼
+Stock result list
+      │
+      ▼
+Navigate → /stocks/[symbol]
+```
+
+### AI Email Automation
+#### Event Trigger
+On Sign Up:  
+```
+app/user.created
+```  
+#### Inngest Workflow  
+1️⃣ Event emitted after signup  
+2️⃣ Inngest function triggers  
+3️⃣ Gemini generates personalized email content  
+4️⃣ Nodemailer sends welcome email  
+
+### Daily AI News Summary  
+A scheduled Inngest cron job runs daily.  
+```
+CRON: 0 12 * * *
+Timezone: Asia/Kuala_Lumpur
+```
+Workflow:  
+```
+Fetch stock-related news
+        │
+        ▼
+Gemini generates summaries
+        │
+        ▼
+Email digest sent to users
+```
+
+---
+
+## ⚙️ Running the Project Locally  
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/DesmondJS/Stocks_Market_App.git
+cd stocks-app
+```  
+
+### 2️⃣ Install Dependencies
+```bash
+npm install
+```
+
+### 3️⃣ Configure Environment Variables
+Create a `.env` file.
+```
+NODE_ENV="development"
+
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+MONGODB_URI=
+
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=http://localhost:3000
+
+GEMINI_API_KEY=
+
+#NODEMAILER
+NODEMAILER_EMAIL=
+NODEMAILER_PASSWORD=
+
+#FINNHUB
+NEXT_PUBLIC_FINNHUB_API_KEY=
+```
+
+### 4️⃣ Run the Development Server
+```bash
+npm run dev
+```
+App runs on:  
+```  
+http://localhost:3000
+```  
+
+### 5️⃣ Start Inngest Dev Server
+In **another terminal** run:  
+```bash
+npx inngest-cli@latest dev
+```  
+This enables:  
+- Event workflows
+- AI automation
+- Cron jobs
+
+--- 
+
+## 🚀 Deployment
+The app is deployed using **Vercel**.  
+Deployment includes:  
+- Environment-based secrets
+- Serverless API routes
+- Inngest webhook integration
+- MongoDB Atlas cloud database
+  
+Live Site:  
+https://stocks-market-app-livid.vercel.app/
+
+---
+
+## 🔮 Future Improvements  
+Potential enhancements:  
+- 📊 Portfolio tracking
+- 🔔 Price alerts & notifications
+- 🧠 AI-powered investment insights  
+
+
