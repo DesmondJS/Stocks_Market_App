@@ -178,3 +178,76 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
         return [];
     }
 });
+
+export const getStockDataForSymbols = cache(async (symbols: string[] = []): Promise<StockWithData[]> => {
+    try {
+        const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+        if (!token) {
+            console.error('FINNHUB API key is not configured');
+            return symbols.map((s) => ({
+                userId: '',
+                symbol: String(s).toUpperCase(),
+                company: String(s).toUpperCase(),
+                addedAt: new Date(),
+            }));
+        }
+
+        const clean = (symbols || []).map((x) => String(x).trim().toUpperCase()).filter(Boolean);
+
+        const results = await Promise.all(
+            clean.map(async (sym) => {
+                try {
+                    const profileUrl = `${FINNHUB_BASE_URL}/stock/profile2?symbol=${encodeURIComponent(sym)}&token=${token}`;
+                    const quoteUrl = `${FINNHUB_BASE_URL}/quote?symbol=${encodeURIComponent(sym)}&token=${token}`;
+
+                    const [profile, quote] = await Promise.all([
+                        fetchJSON<any>(profileUrl, 300),
+                        fetchJSON<any>(quoteUrl, 30),
+                    ]);
+
+                    const company = (profile?.name || profile?.ticker || sym) as string;
+                    const currentPrice = typeof quote?.c === 'number' ? quote.c : undefined;
+                    const changePercent = typeof quote?.dp === 'number' ? quote.dp : undefined;
+
+                    const priceFormatted = currentPrice !== undefined ? `$${Number(currentPrice).toFixed(2)}` : undefined;
+                    const changeFormatted = changePercent !== undefined ? `${changePercent.toFixed(2)}%` : undefined;
+
+                    const marketCapRaw = profile?.marketCapitalization;
+                    let marketCap: string | undefined = undefined;
+                    if (typeof marketCapRaw === 'number') {
+                        if (marketCapRaw >= 1_000_000_000) marketCap = `${(marketCapRaw / 1_000_000_000).toFixed(2)}B`;
+                        else if (marketCapRaw >= 1_000_000) marketCap = `${(marketCapRaw / 1_000_000).toFixed(2)}M`;
+                        else marketCap = String(marketCapRaw);
+                    }
+
+                    const item: StockWithData = {
+                        userId: '',
+                        symbol: sym,
+                        company,
+                        addedAt: new Date(),
+                        currentPrice,
+                        changePercent,
+                        priceFormatted,
+                        changeFormatted,
+                        marketCap,
+                    };
+
+                    return item;
+                } catch (err) {
+                    console.error('getStockDataForSymbols error for', sym, err);
+                    return {
+                        userId: '',
+                        symbol: sym,
+                        company: sym,
+                        addedAt: new Date(),
+                    } as StockWithData;
+                }
+            })
+        );
+
+        return results;
+    } catch (err) {
+        console.error('getStockDataForSymbols error', err);
+        return [];
+    }
+});
