@@ -2,7 +2,7 @@
 import { auth } from '@/lib/better-auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getWatchlistSymbols } from '@/lib/actions/watchlist.action';
+import { getWatchlistSymbols, getWatchlist } from '@/lib/actions/watchlist.action';
 import { getStockDataForSymbols } from '@/lib/actions/finnhub.action';
 import WatchlistTable from '@/components/WatchlistTable';
 import { WatchlistInsight } from '@/components/ai/WatchlistInsight';
@@ -12,7 +12,11 @@ const WatchlistPage = async () => {
     if (!session?.user) redirect('/sign-in');
 
     const userId = (session.user.id as string) || (session.user.email as string);
-    const symbols = await getWatchlistSymbols(userId);
+    //const symbols = await getWatchlistSymbols(userId);
+
+    const watchlistDocs = await getWatchlist(userId);
+    const symbols = watchlistDocs.map((w) => w.symbol);
+
 
     if (!symbols?.length) {
         return (
@@ -49,8 +53,23 @@ const WatchlistPage = async () => {
         );
     }
 
+    // const stocks = await getStockDataForSymbols(symbols);
+    // const clientStocks = stocks.map((s) => ({ ...s, addedAt: s.addedAt ? String(s.addedAt) : undefined }));
+
     const stocks = await getStockDataForSymbols(symbols);
-    const clientStocks = stocks.map((s) => ({ ...s, addedAt: s.addedAt ? String(s.addedAt) : undefined }));
+    const marketBySymbol = new Map(stocks.map((s) => [s.symbol, s]));
+
+    const clientStocks = watchlistDocs.map((w) => {
+        const m = marketBySymbol.get(w.symbol);
+        return {
+            ...m, // currentPrice/change/etc from Finnhub
+            userId: w.userId,
+            symbol: w.symbol,
+            company: w.company,     // keep your DB-edited company
+            category: w.category,   // keep DB category
+            addedAt: w.addedAt ? String(w.addedAt) : undefined,
+        };
+    });
 
     return (
         <section className="container py-10 space-y-6">
